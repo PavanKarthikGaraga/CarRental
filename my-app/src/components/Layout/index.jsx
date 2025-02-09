@@ -1,324 +1,146 @@
 import { useState, useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
-  Button,
-  InputBase,
-  useMediaQuery,
-  useTheme,
-  MenuItem,
-  Tooltip,
-  Fade,
-  Badge,
-} from '@mui/material';
-import {
-  Search as SearchIcon,
-  AccountCircle,
-  Language,
-  Notifications,
-  KeyboardArrowDown,
-  LocationOn,
-  DirectionsCar,
-  CalendarToday,
-  Info,
-  ContactSupport,
-  Favorite,
-  Settings,
-  ExitToApp,
-  Dashboard,
-} from '@mui/icons-material';
+import { Link, useLocation } from 'react-router-dom';
+import './Layout.css';
 
 const pages = [
-  { title: 'Browse Cars', path: '/cars', icon: <DirectionsCar /> },
-  { title: 'About Us', path: '/about', icon: <Info /> },
-  { title: 'Contact', path: '/contact', icon: <ContactSupport /> },
+  { title: 'Browse Cars', path: '/cars' },
+  { title: 'About Us', path: '/about' },
+  { title: 'Contact', path: '/contact' },
 ];
 
 const userMenuItems = [
-  { title: 'My Dashboard', path: '/dashboard', icon: <Dashboard /> },
-  { title: 'My Bookings', path: '/dashboard/bookings', icon: <CalendarToday /> },
-  { title: 'Saved Cars', path: '/dashboard/favorites', icon: <Favorite /> },
-  { title: 'Settings', path: '/dashboard/settings', icon: <Settings /> },
-  { title: 'Logout', path: '/logout', icon: <ExitToApp /> },
+  { title: 'My Dashboard', path: '/dashboard' },
+  { title: 'My Bookings', path: '/dashboard/bookings' },
+  { title: 'Saved Cars', path: '/dashboard/favorites' },
+  { title: 'Settings', path: '/dashboard/settings' },
+  { title: 'Logout', path: '/logout' },
 ];
 
 function Layout({ children }) {
-  const [anchorElUser, setAnchorElUser] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar
-        className={isScrolled ? 'glass-effect' : ''}
-        sx={{
-          background: isScrolled ? 'rgba(10, 13, 17, 0.9)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-          boxShadow: isScrolled ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
-          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar
-            disableGutters
-            sx={{
-              minHeight: isScrolled ? '64px' : '80px',
-              transition: 'min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            <Typography
-              variant="h6"
-              component={RouterLink}
-              to="/"
-              className="hover-scale"
-              sx={{
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                fontSize: isScrolled ? '1.25rem' : '1.5rem',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            >
-              <span className="text-gradient">Drive</span>
-            </Typography>
+    <div className="layout">
+      <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+        <div className="navbar-container">
+          <div className="navbar-content">
+            <Link to="/" className="logo">
+              AutoVoyage
+            </Link>
 
-            {!isMobile && (
-              <Fade in={true} timeout={1000}>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    maxWidth: 400,
-                    width: '100%',
-                    mx: 3,
-                  }}
-                >
-                  <Box
-                    className={searchFocused ? 'glass-effect' : ''}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      backgroundColor: searchFocused ? 'rgba(26, 29, 33, 0.8)' : 'background.paper',
-                      borderRadius: 2,
-                      px: 2,
-                      transition: 'all 0.2s ease',
-                      border: '1px solid',
-                      borderColor: searchFocused ? 'primary.main' : 'transparent',
-                    }}
-                  >
-                    <SearchIcon sx={{ color: searchFocused ? 'primary.main' : 'text.secondary', mr: 1 }} />
-                    <InputBase
-                      placeholder="Search vehicles..."
-                      onFocus={() => setSearchFocused(true)}
-                      onBlur={() => setSearchFocused(false)}
-                      sx={{
-                        flex: 1,
-                        py: 1,
-                        '& input': {
-                          transition: 'all 0.2s ease',
-                          '&::placeholder': {
-                            opacity: 0.7,
-                          },
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </Fade>
-            )}
+            <div className="search-bar">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search vehicles..."
+              />
+              <span className="search-icon">🔍</span>
+            </div>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, ml: 'auto' }}>
+            <div className="nav-links">
               {pages.map((page) => (
-                <Button
+                <Link
                   key={page.path}
-                  component={RouterLink}
                   to={page.path}
-                  startIcon={page.icon}
-                  className="hover-scale"
-                  sx={{
-                    color: 'text.primary',
-                    opacity: location.pathname === page.path ? 1 : 0.7,
-                    position: 'relative',
-                    '&:hover': {
-                      opacity: 1,
-                      '&::after': {
-                        width: '100%',
-                      },
-                    },
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      bottom: -2,
-                      left: 0,
-                      width: location.pathname === page.path ? '100%' : '0%',
-                      height: 2,
-                      backgroundColor: 'primary.main',
-                      transition: 'width 0.2s ease',
-                    },
-                  }}
+                  className={`nav-link ${location.pathname === page.path ? 'active' : ''}`}
                 >
                   {page.title}
-                </Button>
+                </Link>
               ))}
               
-              <Button
-                component={RouterLink}
-                to="/list-your-car"
-                variant="contained"
-                className="button-hover"
-                sx={{
-                  px: 3,
-                  py: 1,
-                  borderRadius: '50px',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                }}
-              >
+              <Link to="/list-your-car" className="list-car-btn">
                 List your car
-              </Button>
+              </Link>
 
-              <Tooltip title="Change language">
-                <IconButton color="inherit" className="hover-scale">
-                  <Language />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Notifications">
-                <IconButton className="hover-scale">
-                  <Badge badgeContent={3} color="primary">
-                    <Notifications />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-
-              <Box sx={{ ml: 1, display: 'flex', alignItems: 'center' }}>
-                <Tooltip title="Account settings">
-                  <Button
-                    onClick={handleOpenUserMenu}
-                    className="hover-scale"
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      color: 'inherit',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                      },
-                    }}
-                  >
-                    <Avatar
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: 'primary.main',
-                        fontWeight: 600,
-                      }}
-                    >
-                      J
-                    </Avatar>
-                    <KeyboardArrowDown
-                      sx={{
-                        transition: 'transform 0.2s ease',
-                        transform: Boolean(anchorElUser) ? 'rotate(180deg)' : 'rotate(0)',
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
-                <Menu
-                  anchorEl={anchorElUser}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                  onClick={handleCloseUserMenu}
-                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  PaperProps={{
-                    elevation: 0,
-                    className: 'glass-effect',
-                    sx: {
-                      mt: 1.5,
-                      overflow: 'visible',
-                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                      '&:before': {
-                        content: '""',
-                        display: 'block',
-                        position: 'absolute',
-                        top: 0,
-                        right: 14,
-                        width: 10,
-                        height: 10,
-                        bgcolor: 'background.paper',
-                        transform: 'translateY(-50%) rotate(45deg)',
-                        zIndex: 0,
-                      },
-                    },
-                  }}
+              <div className="user-menu">
+                <div 
+                  className="user-avatar"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
                 >
+                  J
+                </div>
+                <div className={`dropdown-menu ${showUserMenu ? 'show' : ''}`}>
                   {userMenuItems.map((item) => (
-                    <MenuItem
+                    <Link
                       key={item.path}
-                      component={RouterLink}
                       to={item.path}
-                      className="hover-scale"
-                      sx={{
-                        minWidth: 180,
-                        '&:hover': {
-                          backgroundColor: 'background.lighter',
-                        },
-                      }}
+                      className="dropdown-item"
+                      onClick={() => setShowUserMenu(false)}
                     >
-                      <Typography textAlign="center">{item.title}</Typography>
-                    </MenuItem>
+                      {item.title}
+                    </Link>
                   ))}
-                </Menu>
-              </Box>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          pt: { xs: 7, sm: 8 },
-          minHeight: '100vh',
-          bgcolor: 'background.default',
-        }}
-      >
+      <main className="main-content">
         {children}
-      </Box>
-    </Box>
+      </main>
+
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <Link to="/" className="footer-logo">
+                AutoVoyage
+              </Link>
+              <p className="footer-description">
+                Experience luxury and performance with our premium car collection. Book your dream car today.
+              </p>
+              <div className="social-links">
+                <a href="#" className="social-link">Facebook</a>
+                <a href="#" className="social-link">Twitter</a>
+                <a href="#" className="social-link">Instagram</a>
+                <a href="#" className="social-link">LinkedIn</a>
+              </div>
+            </div>
+
+            <div className="footer-section">
+              <h3>Quick Links</h3>
+              <Link to="/cars" className="footer-link">Browse Cars</Link>
+              <Link to="/about" className="footer-link">About Us</Link>
+              <Link to="/contact" className="footer-link">Contact</Link>
+              <Link to="/list-your-car" className="footer-link">List Your Car</Link>
+            </div>
+
+            <div className="footer-section">
+              <h3>Support</h3>
+              <Link to="/help" className="footer-link">Help Center</Link>
+              <Link to="/terms" className="footer-link">Terms of Service</Link>
+              <Link to="/privacy" className="footer-link">Privacy Policy</Link>
+              <Link to="/faq" className="footer-link">FAQ</Link>
+            </div>
+
+            <div className="footer-section">
+              <h3>Contact Us</h3>
+              <p>📞 +1 (555) 123-4567</p>
+              <p>✉️ support@autovoyage.com</p>
+              <p>📍 123 Business Street</p>
+              <p>New York, NY 10001</p>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} AutoVoyage. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
 

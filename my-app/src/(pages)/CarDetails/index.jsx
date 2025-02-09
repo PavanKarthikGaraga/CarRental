@@ -1,14 +1,6 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  Grid,
-  Chip,
-  Divider,
-} from '@mui/material';
+import { Link } from 'react-router-dom';
+import './CarDetails.css';
 
 // Mock data for car details
 const carDetails = {
@@ -48,156 +40,94 @@ function CarDetails() {
   const [selectedDates, setSelectedDates] = useState([]);
 
   return (
-    <Box sx={{ bgcolor: 'background.default' }}>
+    <div className="car-details">
       {/* Hero Image */}
-      <Box
-        sx={{
-          position: 'relative',
-          height: '50vh',
-          minHeight: 400,
-          backgroundImage: `url(${carDetails.images[0]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          mb: 4,
-        }}
+      <div 
+        className="hero-image"
+        style={{ backgroundImage: `url(${carDetails.images[0]})` }}
       />
 
-      <Container maxWidth="xl">
+      <div className="container">
         {/* Navigation */}
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="body2" color="text.secondary">
-            Home / Listing / {carDetails.name}
-          </Typography>
-        </Box>
+        <div className="breadcrumb">
+          <Link to="/">Home</Link> / <Link to="/cars">Listing</Link> / {carDetails.name}
+        </div>
 
-        <Grid container spacing={6}>
-          <Grid item xs={12} md={8}>
+        <div className="content-grid">
+          <div className="main-content">
             {/* Overview Section */}
-            <Box sx={{ mb: 6 }}>
-              <Typography variant="h4" sx={{ mb: 2 }}>
-                Overview
-              </Typography>
-              <Typography color="text.secondary" sx={{ mb: 4 }}>
-                {carDetails.description}
-              </Typography>
+            <section className="overview-section">
+              <h2>Overview</h2>
+              <p className="description">{carDetails.description}</p>
 
               {/* Features */}
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              <div className="features">
                 {carDetails.features.map((feature) => (
-                  <Chip
-                    key={feature.id}
-                    label={feature.name}
-                    sx={{
-                      bgcolor: 'background.paper',
-                      '&:hover': { bgcolor: 'background.paper' },
-                    }}
-                  />
+                  <span key={feature.id} className="feature-chip">
+                    {feature.name}
+                  </span>
                 ))}
-              </Box>
-            </Box>
+              </div>
+            </section>
 
             {/* Specifications Section */}
-            <Box sx={{ mb: 6 }}>
-              <Typography variant="h4" sx={{ mb: 3 }}>
-                Specifications
-              </Typography>
-              <Grid container spacing={3}>
+            <section className="specifications-section">
+              <h2>Specifications</h2>
+              <div className="specs-grid">
                 {carDetails.specifications.map((spec, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
-                      <Typography color="text.secondary">{spec.name}</Typography>
-                      <Typography>{spec.value}</Typography>
-                    </Box>
-                    <Divider />
-                  </Grid>
+                  <div key={index} className="spec-item">
+                    <div className="spec-content">
+                      <span className="spec-name">{spec.name}</span>
+                      <span className="spec-value">{spec.value}</span>
+                    </div>
+                    <div className="divider"></div>
+                  </div>
                 ))}
-              </Grid>
-            </Box>
-          </Grid>
+              </div>
+            </section>
+          </div>
 
-          <Grid item xs={12} md={4}>
+          <aside className="sidebar">
             {/* Availability Calendar */}
-            <Box
-              sx={{
-                bgcolor: 'background.paper',
-                borderRadius: 2,
-                p: 3,
-                border: '1px solid',
-                borderColor: 'divider',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Availability
-              </Typography>
+            <div className="calendar-card">
+              <h3>Availability</h3>
 
               {/* Calendar Header */}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                <Button size="small">&lt;</Button>
-                <Typography>{calendar.month}</Typography>
-                <Button size="small">&gt;</Button>
-              </Box>
+              <div className="calendar-header">
+                <button className="calendar-nav">&lt;</button>
+                <span className="current-month">{calendar.month}</span>
+                <button className="calendar-nav">&gt;</button>
+              </div>
 
               {/* Calendar Grid */}
-              <Box sx={{ mb: 3 }}>
-                <Grid container spacing={0.5}>
-                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-                    <Grid item xs={12/7} key={day}>
-                      <Typography
-                        align="center"
-                        color="text.secondary"
-                        sx={{ fontSize: '0.75rem', mb: 1 }}
-                      >
-                        {day}
-                      </Typography>
-                    </Grid>
-                  ))}
-                  {calendar.days.map((day, index) => (
-                    <Grid item xs={12/7} key={index}>
-                      <Box
-                        sx={{
-                          aspectRatio: '1',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: 1,
-                          cursor: day.available ? 'pointer' : 'default',
-                          bgcolor: day.available ? 'primary.main' : 'transparent',
-                          opacity: day.available ? 1 : 0.3,
-                          '&:hover': day.available ? {
-                            bgcolor: 'primary.dark',
-                          } : {},
-                        }}
-                      >
-                        <Typography
-                          align="center"
-                          sx={{
-                            fontSize: '0.875rem',
-                            color: day.available ? 'white' : 'text.secondary',
-                          }}
-                        >
-                          {day.day}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
+              <div className="calendar-grid">
+                {/* Weekday Labels */}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
+                  <div key={day} className="calendar-weekday">
+                    {day}
+                  </div>
+                ))}
+                
+                {/* Calendar Days */}
+                {calendar.days.map((day, index) => (
+                  <div
+                    key={index}
+                    className={`calendar-day ${day.available ? 'available' : 'unavailable'}`}
+                  >
+                    {day.day}
+                  </div>
+                ))}
+              </div>
 
               {/* Book Now Button */}
-              <Button
-                variant="contained"
-                fullWidth
-                size="large"
-                component={RouterLink}
-                to={`/booking/${carDetails.id}`}
-              >
+              <Link to={`/booking/${carDetails.id}`} className="book-now-btn">
                 Book Now
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
   );
 }
 

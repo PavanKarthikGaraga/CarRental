@@ -250,7 +250,7 @@ function Booking() {
                         label={
                           <Box>
                             <Typography variant="subtitle1">
-                              {option.name} - ${option.price}/day
+                              {option.name} - ₹{option.price}/day
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                               {option.description}
@@ -279,7 +279,7 @@ function Booking() {
                     label={
                       <Box>
                         <Typography variant="subtitle2">
-                          {option.name} - ${option.price}/day
+                          {option.name} - ₹{option.price}/day
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {option.description}

@@ -10,6 +10,7 @@ import Dashboard from './(pages)/Dashboard';
 import About from './(pages)/About';
 import Contact from './(pages)/Contact';
 import NotFound from './(pages)/NotFound';
+import PeerToPeer from './(pages)/PeerToPeer';
 
 // Dashboard pages
 import MyBookings from './(pages)/Dashboard/MyBookings';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/booking/:id" element={<Booking />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/list-your-car" element={<PeerToPeer />} />
 
         {/* Dashboard routes */}
         <Route path="/dashboard" element={<Dashboard />} />

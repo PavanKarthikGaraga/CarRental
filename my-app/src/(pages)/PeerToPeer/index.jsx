@@ -385,8 +385,8 @@ function PeerToPeer() {
             <Grid item xs={12}>
               {formData.type && (
                 <Alert severity="info" sx={{ mb: 3 }}>
-                  Suggested price range for {formData.type} vehicles in your area: $
-                  {getSuggestedPrice()?.min} - ${getSuggestedPrice()?.max} per day
+                  Suggested price range for {formData.type} vehicles in your area: ₹
+                  {getSuggestedPrice()?.min} - ₹{getSuggestedPrice()?.max} per day
                 </Alert>
               )}
             </Grid>
@@ -400,7 +400,7 @@ function PeerToPeer() {
                 value={formData.pricePerDay}
                 onChange={handleInputChange}
                 InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  startAdornment: <InputAdornment position="start">₹</InputAdornment>,
                 }}
                 error={!!errors.pricePerDay}
                 helperText={errors.pricePerDay}

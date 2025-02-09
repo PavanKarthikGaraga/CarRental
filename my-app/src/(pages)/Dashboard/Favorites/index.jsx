@@ -1,236 +1,103 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  IconButton,
-  Button,
-  Stack,
-  Rating,
-  Chip,
-} from '@mui/material';
-import {
-  Favorite,
-  FavoriteBorder,
-  DirectionsCar,
-  Speed,
-  Person,
-  Settings,
-} from '@mui/icons-material';
-
-// Mock data for saved cars
-const savedCars = [
-  {
-    id: 1,
-    name: 'Tesla Model 3',
-    image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800',
-    price: 99,
-    rating: 4.8,
-    reviews: 128,
-    category: 'Electric',
-    specs: {
-      seats: 5,
-      transmission: 'Auto',
-      speed: '0-60 mph in 3.1s',
-      range: '358 mi range',
-    },
-  },
-  {
-    id: 2,
-    name: 'BMW M4 Competition',
-    image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800',
-    price: 149,
-    rating: 4.9,
-    reviews: 96,
-    category: 'Sport',
-    specs: {
-      seats: 4,
-      transmission: 'Auto',
-      speed: '0-60 mph in 3.8s',
-      power: '503 hp',
-    },
-  },
-  {
-    id: 3,
-    name: 'Porsche 911 GT3',
-    image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=800',
-    price: 249,
-    rating: 5.0,
-    reviews: 64,
-    category: 'Sport',
-    specs: {
-      seats: 2,
-      transmission: 'Manual',
-      speed: '0-60 mph in 3.2s',
-      power: '502 hp',
-    },
-  },
-];
+import { Link } from 'react-router-dom';
+import { favorites as mockFavorites } from '../../../mockdata/cars';
+import './Favorites.css';
 
 function Favorites() {
-  const [favorites, setFavorites] = useState(savedCars);
+  const [sortBy, setSortBy] = useState('name');
+  const [favorites, setFavorites] = useState(mockFavorites);
 
-  const handleRemoveFavorite = (carId) => {
-    setFavorites(favorites.filter(car => car.id !== carId));
+  const sortedFavorites = [...favorites].sort((a, b) => {
+    if (sortBy === 'price') return a.price - b.price;
+    if (sortBy === 'rating') return b.rating - a.rating;
+    return a.name.localeCompare(b.name);
+  });
+
+  const handleRemove = (id) => {
+    setFavorites(favorites.filter(car => car.id !== id));
   };
 
   return (
-    <Box sx={{ py: 4 }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" gutterBottom>
-            Saved Cars
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Your favorite vehicles for quick access
-          </Typography>
-        </Box>
+    <div className="container">
+      {/* Header */}
+      <div className="header">
+        <h1>Favorite Cars</h1>
+        <p>Your collection of saved vehicles</p>
+      </div>
 
-        {/* Cars Grid */}
-        <Grid container spacing={3}>
-          {favorites.map((car) => (
-            <Grid item xs={12} md={6} lg={4} key={car.id}>
-              <Card className="card-hover">
-                <Box sx={{ position: 'relative' }}>
-                  <CardMedia
-                    component="img"
-                    height="220"
-                    image={car.image}
-                    alt={car.name}
-                    sx={{
-                      transition: 'transform 0.3s ease',
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                      },
-                    }}
-                  />
-                  <IconButton
-                    onClick={() => handleRemoveFavorite(car.id)}
-                    sx={{
-                      position: 'absolute',
-                      top: 8,
-                      right: 8,
-                      bgcolor: 'background.paper',
-                      '&:hover': {
-                        bgcolor: 'background.paper',
-                      },
-                    }}
-                  >
-                    <Favorite color="error" />
-                  </IconButton>
-                  <Chip
-                    label={car.category}
-                    color="primary"
-                    size="small"
-                    sx={{
-                      position: 'absolute',
-                      top: 16,
-                      left: 16,
-                      fontWeight: 600,
-                    }}
-                  />
-                </Box>
+      {/* Sort Controls */}
+      <div className="sort-controls">
+        <label htmlFor="sort">Sort by:</label>
+        <select
+          id="sort"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="sort-select"
+        >
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
 
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                      {car.name}
-                    </Typography>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <Rating value={car.rating} precision={0.1} size="small" readOnly />
-                      <Typography variant="body2" color="text.secondary">
-                        ({car.reviews} reviews)
-                      </Typography>
-                    </Stack>
-                  </Box>
+      {/* Favorites Grid */}
+      <div className="favorites-grid">
+        {sortedFavorites.map((car) => (
+          <div key={car.id} className="car-card">
+            <div className="car-image-container">
+              <img src={car.image} alt={car.name} className="car-image" />
+              <button
+                className="remove-button"
+                onClick={() => handleRemove(car.id)}
+                title="Remove from favorites"
+              >
+                ❌
+              </button>
+            </div>
 
-                  <Box sx={{ mb: 3 }}>
-                    <Stack direction="row" spacing={2} flexWrap="wrap">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Person sx={{ fontSize: 20, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
-                          {car.specs.seats} seats
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Settings sx={{ fontSize: 20, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
-                          {car.specs.transmission}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Speed sx={{ fontSize: 20, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
-                          {car.specs.speed}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </Box>
+            <div className="car-content">
+              <h2>{car.name}</h2>
+              
+              <div className="car-rating">
+                <span className="stars">⭐</span>
+                <span>{car.rating.toFixed(1)}</span>
+              </div>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box>
-                      <Typography variant="h5" color="primary" sx={{ fontWeight: 600 }}>
-                        ${car.price}
-                        <Typography component="span" variant="body2" color="text.secondary">
-                          /day
-                        </Typography>
-                      </Typography>
-                    </Box>
-                    <Button
-                      component={RouterLink}
-                      to={`/cars/${car.id}`}
-                      variant="contained"
-                      size="small"
-                      className="button-hover"
-                      startIcon={<DirectionsCar />}
-                      sx={{
-                        borderRadius: '50px',
-                        textTransform: 'none',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Rent Now
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+              <div className="car-specs">
+                {Object.entries(car.specs).map(([key, value]) => (
+                  <div key={key} className="spec-item">
+                    <span className="spec-icon">
+                      {key === 'range' ? '🔋' : key === 'engine' ? '🚗' : key === 'power' ? '⚡' : '👥'}
+                    </span>
+                    <span className="spec-value">{value}</span>
+                  </div>
+                ))}
+              </div>
 
-        {/* Empty State */}
-        {favorites.length === 0 && (
-          <Box
-            sx={{
-              textAlign: 'center',
-              py: 8,
-            }}
-          >
-            <FavoriteBorder sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" gutterBottom>
-              No Saved Cars
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              Start saving your favorite cars for quick access
-            </Typography>
-            <Button
-              component={RouterLink}
-              to="/cars"
-              variant="contained"
-              startIcon={<DirectionsCar />}
-            >
+              <div className="car-price">
+                <span>₹{car.price.toFixed(2)}</span>
+                <span className="price-period">/day</span>
+              </div>
+
+              <Link to={`/cars/${car.id}`} className="view-details">
+                View Details
+              </Link>
+            </div>
+          </div>
+        ))}
+
+        {sortedFavorites.length === 0 && (
+          <div className="empty-state">
+            <span className="empty-icon">❤️</span>
+            <h2>No favorites yet</h2>
+            <p>Start adding cars to your favorites list</p>
+            <Link to="/cars" className="browse-button">
               Browse Cars
-            </Button>
-          </Box>
+            </Link>
+          </div>
         )}
-      </Container>
-    </Box>
+      </div>
+    </div>
   );
 }
 

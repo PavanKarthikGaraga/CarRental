@@ -1,299 +1,252 @@
 import { useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  Grid,
-  TextField,
-  Button,
-  Switch,
-  Divider,
-  Stack,
-  Avatar,
-  IconButton,
-  Alert,
-} from '@mui/material';
-import {
-  AccountCircle,
-  Notifications,
-  Security,
-  Language,
-  CameraAlt,
-  Delete,
-} from '@mui/icons-material';
+import './Settings.css';
 
 function Settings() {
-  const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200');
-  const [notifications, setNotifications] = useState({
-    email: true,
-    push: true,
-    marketing: false,
+  const [formData, setFormData] = useState({
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '+91 98765 43210',
+    address: '123 Main Street',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    pincode: '400001',
+    currency: 'inr',
+    notifications: {
+      email: true,
+      sms: true,
+      push: false,
+    },
+    language: 'en',
   });
-  const [saved, setSaved] = useState(false);
 
-  const handleNotificationChange = (event) => {
-    setNotifications({
-      ...notifications,
-      [event.target.name]: event.target.checked,
-    });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+  const handleNotificationChange = (type) => {
+    setFormData(prev => ({
+      ...prev,
+      notifications: {
+        ...prev.notifications,
+        [type]: !prev.notifications[type],
+      },
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Implement save functionality
+    console.log('Saving settings:', formData);
   };
 
   return (
-    <Box sx={{ py: 4 }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" gutterBottom>
-            Settings
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Manage your account settings and preferences
-          </Typography>
-        </Box>
+    <div className="container">
+      {/* Header */}
+      <div className="header">
+        <h1>Account Settings</h1>
+        <p>Manage your account preferences and settings</p>
+      </div>
 
-        {/* Success Alert */}
-        {saved && (
-          <Alert severity="success" sx={{ mb: 3 }}>
-            Settings saved successfully!
-          </Alert>
-        )}
+      <form onSubmit={handleSubmit} className="settings-form">
+        {/* Personal Information */}
+        <div className="section">
+          <h2>Personal Information</h2>
+          
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-        <Grid container spacing={3}>
-          {/* Profile Section */}
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Box sx={{ textAlign: 'center', mb: 3 }}>
-                  <Box sx={{ position: 'relative', display: 'inline-block' }}>
-                    <Avatar
-                      src={profileImage}
-                      sx={{ width: 120, height: 120, mb: 2 }}
-                    />
-                    <IconButton
-                      sx={{
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                        bgcolor: 'background.paper',
-                        '&:hover': { bgcolor: 'background.paper' },
-                      }}
-                    >
-                      <CameraAlt />
-                    </IconButton>
-                  </Box>
-                  <Typography variant="h6">John Smith</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    john.smith@example.com
-                  </Typography>
-                </Box>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  fullWidth
-                  startIcon={<Delete />}
-                >
-                  Delete Account
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-          {/* Settings Sections */}
-          <Grid item xs={12} md={8}>
-            <Stack spacing={3}>
-              {/* Personal Information */}
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <AccountCircle /> Personal Information
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="First Name"
-                        defaultValue="John"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Last Name"
-                        defaultValue="Smith"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        defaultValue="john.smith@example.com"
-                        type="email"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Phone"
-                        defaultValue="+1 (555) 123-4567"
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-              {/* Notifications */}
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Notifications /> Notifications
-                  </Typography>
-                  <Stack spacing={2}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box>
-                        <Typography variant="subtitle1">Email Notifications</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Receive booking updates and reminders
-                        </Typography>
-                      </Box>
-                      <Switch
-                        checked={notifications.email}
-                        onChange={handleNotificationChange}
-                        name="email"
-                      />
-                    </Box>
-                    <Divider />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box>
-                        <Typography variant="subtitle1">Push Notifications</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Receive notifications on your device
-                        </Typography>
-                      </Box>
-                      <Switch
-                        checked={notifications.push}
-                        onChange={handleNotificationChange}
-                        name="push"
-                      />
-                    </Box>
-                    <Divider />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box>
-                        <Typography variant="subtitle1">Marketing Emails</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Receive offers and updates from us
-                        </Typography>
-                      </Box>
-                      <Switch
-                        checked={notifications.marketing}
-                        onChange={handleNotificationChange}
-                        name="marketing"
-                      />
-                    </Box>
-                  </Stack>
-                </CardContent>
-              </Card>
+            <div className="form-group">
+              <label htmlFor="phone">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
 
-              {/* Security */}
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Security /> Security
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Current Password"
-                        type="password"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="New Password"
-                        type="password"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Confirm New Password"
-                        type="password"
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+        {/* Address */}
+        <div className="section">
+          <h2>Address</h2>
+          
+          <div className="form-grid">
+            <div className="form-group full-width">
+              <label htmlFor="address">Street Address</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+              />
+            </div>
 
-              {/* Preferences */}
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Language /> Preferences
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        select
-                        label="Language"
-                        defaultValue="en"
-                        SelectProps={{
-                          native: true,
-                        }}
-                      >
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        select
-                        label="Currency"
-                        defaultValue="usd"
-                        SelectProps={{
-                          native: true,
-                        }}
-                      >
-                        <option value="usd">USD ($)</option>
-                        <option value="eur">EUR (€)</option>
-                        <option value="gbp">GBP (£)</option>
-                      </TextField>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </Stack>
-          </Grid>
-        </Grid>
+            <div className="form-group">
+              <label htmlFor="city">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+              />
+            </div>
 
-        {/* Save Button */}
-        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            variant="contained"
-            size="large"
-            onClick={handleSave}
-            className="button-hover"
-            sx={{
-              px: 4,
-              py: 1.5,
-              borderRadius: '50px',
-            }}
-          >
+            <div className="form-group">
+              <label htmlFor="state">State</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="pincode">PIN Code</label>
+              <input
+                type="text"
+                id="pincode"
+                name="pincode"
+                value={formData.pincode}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Preferences */}
+        <div className="section">
+          <h2>Preferences</h2>
+          
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="currency">Currency</label>
+              <select
+                id="currency"
+                name="currency"
+                value={formData.currency}
+                onChange={handleInputChange}
+              >
+                <option value="inr">Indian Rupee (₹)</option>
+                <option value="usd">US Dollar ($)</option>
+                <option value="eur">Euro (€)</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="language">Language</label>
+              <select
+                id="language"
+                name="language"
+                value={formData.language}
+                onChange={handleInputChange}
+              >
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="mr">Marathi</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="notifications">
+            <h3>Notifications</h3>
+            
+            <div className="checkbox-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.notifications.email}
+                  onChange={() => handleNotificationChange('email')}
+                />
+                <span className="checkbox-text">
+                  <span className="checkbox-title">Email Notifications</span>
+                  <span className="checkbox-description">Receive booking updates and promotions via email</span>
+                </span>
+              </label>
+
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.notifications.sms}
+                  onChange={() => handleNotificationChange('sms')}
+                />
+                <span className="checkbox-text">
+                  <span className="checkbox-title">SMS Notifications</span>
+                  <span className="checkbox-description">Get instant updates about your bookings via SMS</span>
+                </span>
+              </label>
+
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.notifications.push}
+                  onChange={() => handleNotificationChange('push')}
+                />
+                <span className="checkbox-text">
+                  <span className="checkbox-title">Push Notifications</span>
+                  <span className="checkbox-description">Receive push notifications on your device</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="form-actions">
+          <button type="submit" className="save-button">
             Save Changes
-          </Button>
-        </Box>
-      </Container>
-    </Box>
+          </button>
+          <button type="button" className="cancel-button">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

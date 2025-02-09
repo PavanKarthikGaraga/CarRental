@@ -82,7 +82,7 @@ function About() {
               fontWeight: 700,
             }}
           >
-            About Drive
+            About AutoVoyage
           </Typography>
           <Typography
             variant="h5"
@@ -148,7 +148,7 @@ function About() {
             color="text.secondary"
             sx={{ mb: 6 }}
           >
-            Meet the people behind Drive
+            Meet the people behind AutoVoyage
           </Typography>
 
           <Grid container spacing={4} justifyContent="center">
