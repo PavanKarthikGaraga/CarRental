@@ -128,10 +128,10 @@ function Layout({ children }) {
 
             <div className="footer-section">
               <h3>Contact Us</h3>
-              <p>📞 +1 (555) 123-4567</p>
+              <p>📞 123456890</p>
               <p>✉️ support@autovoyage.com</p>
-              <p>📍 123 Business Street</p>
-              <p>New York, NY 10001</p>
+              <p>📍 123  Street</p>
+              <p>Vijayawada</p>
             </div>
           </div>
 

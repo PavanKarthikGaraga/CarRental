@@ -2,9 +2,9 @@
 export const cars = [
   {
     id: 1,
-    name: 'Tesla Model 3',
+    name: 'Volkswagen Polo',
     model: 'Performance',
-    image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1920',
+    image: 'https://images.unsplash.com/photo-1606038162394-4821c90e4c6c?auto=format&fit=crop&w=1920',
     price: 3499,
     rating: 4.8,
     reviews: 128,
@@ -34,9 +34,9 @@ export const cars = [
   },
   {
     id: 3,
-    name: 'Porsche 911',
-    model: 'Carrera S',
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920',
+    name: 'Mahindra Thar',
+    model: 'Off-Road',
+    image: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1920',
     price: 7999,
     rating: 4.7,
     reviews: 84,
@@ -50,9 +50,9 @@ export const cars = [
   },
   {
     id: 4,
-    name: 'Mercedes-Benz S-Class',
+    name: 'Hyundai I30',
     model: 'S 580',
-    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1920',
+    image: 'https://images.unsplash.com/photo-1571561944842-542037875b50?auto=format&fit=crop&w=1920',
     price: 9999,
     rating: 4.9,
     reviews: 72,
@@ -66,7 +66,7 @@ export const cars = [
   },
   {
     id: 5,
-    name: 'Audi RS e-tron GT',
+    name: 'Audi R8',
     model: 'RS',
     image: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1920',
     price: 11999,
@@ -82,110 +82,111 @@ export const cars = [
   },
 ];
 
-// Mock data for bookings
+// Mock data for bookings - using cars array data
 export const bookings = [
   {
     id: 1,
     car: {
-      name: 'Tesla Model 3',
-      image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1920',
+      name: cars[0].name,
+      image: cars[0].image,
+      model: cars[0].model,
+      specs: cars[0].specs
     },
     startDate: '2024-03-15',
     endDate: '2024-03-18',
-    location: 'San Francisco',
+    location: 'Mumbai',
     status: 'Active',
-    price: 3499,
+    price: cars[0].price,
   },
   {
     id: 2,
     car: {
-      name: 'BMW M4',
-      image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1920',
+      name: cars[1].name,
+      image: cars[1].image,
+      model: cars[1].model,
+      specs: cars[1].specs
     },
     startDate: '2024-03-10',
     endDate: '2024-03-12',
-    location: 'Los Angeles',
+    location: 'Delhi',
     status: 'Completed',
-    price: 4999,
+    price: cars[1].price,
   },
   {
     id: 3,
     car: {
-      name: 'Porsche 911',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920',
+      name: cars[2].name,
+      image: cars[2].image,
+      model: cars[2].model,
+      specs: cars[2].specs
     },
     startDate: '2024-02-25',
     endDate: '2024-02-28',
-    location: 'New York',
+    location: 'Bangalore',
     status: 'Cancelled',
-    price: 7999,
+    price: cars[2].price,
   },
 ];
 
-// Mock data for favorites
+// Mock data for favorites - using cars array data
 export const favorites = [
   {
-    id: 1,
-    name: 'Tesla Model 3',
-    image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1920',
-    price: 3499,
-    rating: 4.8,
-    specs: {
-      range: '500 km',
-      power: '450 bhp',
-      seats: 5,
-    },
+    id: cars[0].id,
+    name: cars[0].name,
+    model: cars[0].model,
+    image: cars[0].image,
+    price: cars[0].price,
+    rating: cars[0].rating,
+    category: cars[0].category,
+    specs: cars[0].specs,
   },
   {
-    id: 2,
-    name: 'BMW M4',
-    image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1920',
-    price: 4999,
-    rating: 4.9,
-    specs: {
-      engine: '3.0L Twin-Turbo',
-      power: '503 bhp',
-      seats: 4,
-    },
+    id: cars[1].id,
+    name: cars[1].name,
+    model: cars[1].model,
+    image: cars[1].image,
+    price: cars[1].price,
+    rating: cars[1].rating,
+    category: cars[1].category,
+    specs: cars[1].specs,
   },
   {
-    id: 3,
-    name: 'Porsche 911',
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920',
-    price: 7999,
-    rating: 4.7,
-    specs: {
-      engine: '3.0L Twin-Turbo',
-      power: '443 bhp',
-      seats: 4,
-    },
+    id: cars[4].id,
+    name: cars[4].name,
+    model: cars[4].model,
+    image: cars[4].image,
+    price: cars[4].price,
+    rating: cars[4].rating,
+    category: cars[4].category,
+    specs: cars[4].specs,
   },
 ];
 
-// Mock data for car details
+// Mock data for car details - using cars array data
 export const carDetails = {
-  id: 1,
-  name: 'Porsche 911',
-  description: 'The Porsche 911 is an iconic sports car that offers an exhilarating driving experience. With its powerful twin-turbocharged engine, precise handling, and premium features, the 911 delivers impressive performance while maintaining luxury and comfort.',
+  ...cars[2], // Using Mahindra Thar as the detailed car
+  description: `Experience the power and luxury of the ${cars[2].name} ${cars[2].model}. 
+    This ${cars[2].category.toLowerCase()} vehicle offers exceptional performance 
+    with ${cars[2].specs.power} and ${cars[2].specs.transmission} transmission, 
+    perfect for both city driving and off-road adventures.`,
   images: [
-    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920',
+    cars[2].image,
     'https://images.unsplash.com/photo-1503377921878-9abf15f2fc51?auto=format&fit=crop&w=1920',
   ],
   features: [
-    { id: 1, name: '3.0L Twin-Turbo Engine' },
-    { id: 2, name: '8-Speed PDK Transmission' },
-    { id: 3, name: 'Sport Chrono Package' },
-    { id: 4, name: 'Bose Sound System' },
+    { id: 1, name: cars[2].specs.engine },
+    { id: 2, name: `${cars[2].specs.transmission} Transmission` },
+    { id: 3, name: 'Off-Road Package' },
+    { id: 4, name: 'Premium Sound System' },
   ],
   specifications: [
-    { name: 'Engine', value: '3.0L Twin-Turbo' },
-    { name: 'Transmission', value: '8-speed PDK' },
-    { name: 'Seating Capacity', value: '4 passengers' },
-    { name: 'Fuel Economy', value: '20/26 mpg' },
-    { name: 'Horsepower', value: '443 hp' },
-    { name: 'Torque', value: '390 lb-ft' },
+    { name: 'Model', value: cars[2].model },
+    { name: 'Category', value: cars[2].category },
+    { name: 'Seats', value: `${cars[2].specs.seats} passengers` },
+    { name: 'Transmission', value: cars[2].specs.transmission },
+    { name: 'Engine', value: cars[2].specs.engine },
+    { name: 'Power', value: cars[2].specs.power },
   ],
-  price: 7999,
 };
 
 // Mock data for calendar availability

@@ -1,68 +1,99 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { cars } from '../../mockdata/cars';
 import './CarDetails.css';
 
-// Mock data for car details
-const carDetails = {
-  id: 1,
-  name: 'Ford Mustang GT',
-  description: 'The Ford Mustang GT is a powerful and stylish sports car that offers an exhilarating driving experience. With its 5.0L V8 engine, the Mustang GT delivers impressive performance, while its iconic design and premium features make it a head-turning choice for car enthusiasts.',
-  images: [
-    'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1920',
-  ],
-  features: [
-    { id: 1, name: '5.0L V8 Engine' },
-    { id: 2, name: '6-Speed Manual Transmission' },
-    { id: 3, name: 'Leather Seats' },
-    { id: 4, name: 'B&O Sound System' },
-  ],
-  specifications: [
-    { name: 'Engine', value: '5.0L V8' },
-    { name: 'Transmission', value: '6-speed manual' },
-    { name: 'Seating Capacity', value: '4 passengers' },
-    { name: 'Fuel Economy', value: '15/24 mpg' },
-    { name: 'Horsepower', value: '460 hp' },
-    { name: 'Torque (lb-ft)', value: '420 lb-ft' },
-  ],
-  price: 150,
-};
-
-// Mock data for calendar availability
+// Simplified calendar data
 const calendar = {
   month: 'Jul 2023',
-  days: Array.from({ length: 31 }, (_, i) => ({
+  days: Array(31).fill(null).map((_, i) => ({
     day: i + 1,
     available: Math.random() > 0.3,
   })),
 };
 
 function CarDetails() {
-  const [selectedDates, setSelectedDates] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  
+  // Find the car details from the mock data
+  const carDetails = cars.find(car => car.id === parseInt(id));
+
+  // If car not found, show error state
+  if (!carDetails) {
+    return (
+      <div className="car-details">
+        <div className="container">
+          <div className="empty-state">
+            <span className="empty-icon">🚫</span>
+            <h2>Car Not Found</h2>
+            <p>The car you're looking for doesn't exist.</p>
+            <button 
+              className="back-button"
+              onClick={() => navigate('/cars')}
+              style={{ marginTop: '1rem' }}
+            >
+              ← Back to Listing
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Generate features from specs
+  const features = Object.entries(carDetails.specs).map(([key, value], id) => ({
+    id,
+    name: `${value} ${key}`
+  }));
+
+  // Generate specifications
+  const specifications = [
+    { name: 'Model', value: carDetails.model },
+    { name: 'Category', value: carDetails.category },
+    { name: 'Seats', value: `${carDetails.specs.seats} passengers` },
+    { name: 'Transmission', value: carDetails.specs.transmission },
+    { name: 'Power', value: carDetails.specs.power },
+    ...(carDetails.specs.range ? [{ name: 'Range', value: carDetails.specs.range }] : []),
+    ...(carDetails.specs.engine ? [{ name: 'Engine', value: carDetails.specs.engine }] : []),
+  ];
 
   return (
     <div className="car-details">
       {/* Hero Image */}
       <div 
         className="hero-image"
-        style={{ backgroundImage: `url(${carDetails.images[0]})` }}
+        style={{ backgroundImage: `url(${carDetails.image})` }}
       />
 
       <div className="container">
         {/* Navigation */}
         <div className="breadcrumb">
-          <Link to="/">Home</Link> / <Link to="/cars">Listing</Link> / {carDetails.name}
+          <Link to="/">Home</Link> / <Link to="/cars">Car Listing</Link> / <span>{carDetails.name}</span>
         </div>
+
+        {/* Back Button */}
+        <button 
+          className="back-button"
+          onClick={() => navigate(-1)}
+        >
+          ← Back to Listing
+        </button>
 
         <div className="content-grid">
           <div className="main-content">
             {/* Overview Section */}
             <section className="overview-section">
-              <h2>Overview</h2>
-              <p className="description">{carDetails.description}</p>
+              <h1 className="car-title">{carDetails.name}</h1>
+              <p className="description">
+                Experience the power and luxury of the {carDetails.name} {carDetails.model}. 
+                This {carDetails.category.toLowerCase()} vehicle offers exceptional performance 
+                with {carDetails.specs.power} and {carDetails.specs.transmission} transmission, 
+                perfect for both city driving and long journeys.
+              </p>
 
               {/* Features */}
               <div className="features">
-                {carDetails.features.map((feature) => (
+                {features.map((feature) => (
                   <span key={feature.id} className="feature-chip">
                     {feature.name}
                   </span>
@@ -74,7 +105,7 @@ function CarDetails() {
             <section className="specifications-section">
               <h2>Specifications</h2>
               <div className="specs-grid">
-                {carDetails.specifications.map((spec, index) => (
+                {specifications.map((spec, index) => (
                   <div key={index} className="spec-item">
                     <div className="spec-content">
                       <span className="spec-name">{spec.name}</span>
@@ -94,9 +125,7 @@ function CarDetails() {
 
               {/* Calendar Header */}
               <div className="calendar-header">
-                <button className="calendar-nav">&lt;</button>
                 <span className="current-month">{calendar.month}</span>
-                <button className="calendar-nav">&gt;</button>
               </div>
 
               {/* Calendar Grid */}
@@ -121,7 +150,7 @@ function CarDetails() {
 
               {/* Book Now Button */}
               <Link to={`/booking/${carDetails.id}`} className="book-now-btn">
-                Book Now
+                Book Now - ₹{carDetails.price.toLocaleString()}/day
               </Link>
             </div>
           </aside>

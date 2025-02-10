@@ -1,38 +1,24 @@
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Avatar,
-  Stack,
-} from '@mui/material';
-import {
-  Speed,
-  Security,
-  EmojiTransportation,
-  SupportAgent,
-} from '@mui/icons-material';
+import React from 'react';
+import './About.css';
 
 const features = [
   {
-    icon: <Speed sx={{ fontSize: 40 }} />,
+    icon: '🚀',
     title: 'Fast & Easy Booking',
     description: 'Book your dream car in minutes with our streamlined process.',
   },
   {
-    icon: <Security sx={{ fontSize: 40 }} />,
+    icon: '🔒',
     title: 'Secure & Reliable',
     description: 'All cars are fully insured and regularly maintained for your safety.',
   },
   {
-    icon: <EmojiTransportation sx={{ fontSize: 40 }} />,
+    icon: '🚗',
     title: 'Wide Selection',
     description: 'Choose from our extensive collection of premium vehicles.',
   },
   {
-    icon: <SupportAgent sx={{ fontSize: 40 }} />,
+    icon: '🎧',
     title: '24/7 Support',
     description: 'Our dedicated team is always here to help you.',
   },
@@ -40,152 +26,68 @@ const features = [
 
 const team = [
   {
-    name: 'John Smith',
-    role: 'CEO & Founder',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200',
+    name: 'Pavan Karthik',
+    // role: 'CEO & Founder',
+    image: 'https://cdn.iconscout.com/icon/free/png-512/free-person-icon-download-in-svg-png-gif-file-formats--user-male-young-profile-interface-vol-1-pack-icons-2202553.png?f=webp&w=256',
   },
   {
-    name: 'Sarah Johnson',
-    role: 'Operations Director',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200',
+    name: 'MD Althaf',
+    // role: 'Operations Director',
+    image: 'https://cdn.iconscout.com/icon/free/png-512/free-person-icon-download-in-svg-png-gif-file-formats--user-male-young-profile-interface-vol-1-pack-icons-2202553.png?f=webp&w=256',
   },
   {
-    name: 'Michael Chen',
-    role: 'Fleet Manager',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200',
+    name: 'Sasidhar',
+    // role: 'Fleet Manager',
+    image: 'https://cdn.iconscout.com/icon/free/png-512/free-person-icon-download-in-svg-png-gif-file-formats--user-male-young-profile-interface-vol-1-pack-icons-2202553.png?f=webp&w=256',
   },
 ];
 
 function About() {
   return (
-    <Box>
+    <div className="about-page">
       {/* Hero Section */}
-      <Box
-        sx={{
-          pt: { xs: 6, md: 8 },
-          pb: { xs: 8, md: 12 },
-          bgcolor: 'background.paper',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography
-            variant="h2"
-            align="center"
-            sx={{
-              mb: 2,
-              background: 'linear-gradient(45deg, #0084FF, #00B4FF)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 700,
-            }}
-          >
-            About AutoVoyage
-          </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}
-          >
+      <div className="hero-section">
+        <div className="container">
+          <h1 className="hero-title">About AutoVoyage</h1>
+          <p className="hero-subtitle">
             We're revolutionizing the car rental experience with premium vehicles and exceptional service.
-          </Typography>
-        </Container>
-      </Box>
+          </p>
+        </div>
+      </div>
 
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
-        <Grid container spacing={4}>
+      <div className="container">
+        <div className="features-grid">
           {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card
-                className="card-hover"
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  p: 3,
-                }}
-              >
-                <Box
-                  sx={{
-                    mb: 2,
-                    color: 'primary.main',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {feature.icon}
-                </Box>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {feature.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {feature.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+            <div className="feature-card" key={index}>
+              <div className="feature-icon">{feature.icon}</div>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
           ))}
-        </Grid>
-      </Container>
+        </div>
+      </div>
 
       {/* Team Section */}
-      <Box sx={{ bgcolor: 'background.paper', py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Typography variant="h3" align="center" gutterBottom>
-            Our Team
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="text.secondary"
-            sx={{ mb: 6 }}
-          >
-            Meet the people behind AutoVoyage
-          </Typography>
+      <div className="team-section">
+        <div className="container">
+          <h2>Our Team</h2>
+          <p className="hero-subtitle">Meet the people behind AutoVoyage</p>
 
-          <Grid container spacing={4} justifyContent="center">
+          <div className="team-grid">
             {team.map((member, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card
-                  className="card-hover"
-                  sx={{
-                    textAlign: 'center',
-                    p: 3,
-                  }}
-                >
-                  <Avatar
-                    src={member.image}
-                    alt={member.name}
-                    sx={{
-                      width: 120,
-                      height: 120,
-                      mx: 'auto',
-                      mb: 2,
-                      border: '4px solid',
-                      borderColor: 'primary.main',
-                    }}
-                  />
-                  <Typography variant="h6" gutterBottom>
-                    {member.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {member.role}
-                  </Typography>
-                </Card>
-              </Grid>
+              <div className="team-card" key={index}>
+                <div className="member-avatar">
+                  <img src={member.image} alt={member.name} />
+                </div>
+                <h3>{member.name}</h3>
+                {/* <p>{member.role}</p> */}
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

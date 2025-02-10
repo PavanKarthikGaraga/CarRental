@@ -4,7 +4,7 @@ const contactInfo = [
   {
     icon: '📞',
     title: 'Phone',
-    details: ['+1 (555) 123-4567', '+1 (555) 765-4321'],
+    details: ['+91 9876543210', '+91 9876543210'],
   },
   {
     icon: '✉️',
@@ -14,7 +14,7 @@ const contactInfo = [
   {
     icon: '📍',
     title: 'Location',
-    details: ['123 Business Street', 'New York, NY 10001'],
+    details: ['123 Street','vijayawada'],
   },
   {
     icon: '⏰',

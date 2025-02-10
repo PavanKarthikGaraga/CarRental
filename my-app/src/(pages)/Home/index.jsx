@@ -20,8 +20,7 @@ function Home() {
       <section className="hero-section">
         <div className="hero-background">
           <img 
-            src="https://images.unsplash.com/photo-617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=2070" 
-           
+            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=2070" 
             alt="Luxury Car"
             className="hero-image"
           />
@@ -124,9 +123,6 @@ function Home() {
                       <span className="price-amount">₹{car.price}</span>
                       <span className="price-period">/day</span>
                     </div>
-                    <button className="view-details-btn">
-                      View Details
-                    </button>
                   </div>
                 </div>
               </Link>

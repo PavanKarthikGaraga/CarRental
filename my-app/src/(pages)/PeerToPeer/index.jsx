@@ -1,27 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  InputAdornment,
-  Alert,
-  Stepper,
-  Step,
-  StepLabel,
-  FormHelperText,
-  Card,
-  CardContent,
-} from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Link, useNavigate } from 'react-router-dom';
+import './PeerToPeer.css';
 
 const carTypes = ['Sedan', 'SUV', 'Sports', 'Electric', 'Luxury', 'Van'];
 const transmissionTypes = ['Automatic', 'Manual'];
@@ -29,14 +8,14 @@ const fuelTypes = ['Gasoline', 'Diesel', 'Electric', 'Hybrid'];
 
 const steps = ['Vehicle Details', 'Photos & Documents', 'Pricing & Availability'];
 
-// Mock market price suggestions based on car type
+// Market price suggestions
 const marketPriceSuggestions = {
-  Sedan: { min: 40, max: 80 },
-  SUV: { min: 50, max: 100 },
-  Sports: { min: 100, max: 200 },
-  Electric: { min: 60, max: 120 },
-  Luxury: { min: 120, max: 250 },
-  Van: { min: 70, max: 150 },
+  Sedan: { min: 3999, max: 7999 },
+  SUV: { min: 4999, max: 9999 },
+  Sports: { min: 9999, max: 19999 },
+  Electric: { min: 5999, max: 11999 },
+  Luxury: { min: 11999, max: 24999 },
+  Van: { min: 6999, max: 14999 },
 };
 
 function PeerToPeer() {
@@ -64,34 +43,38 @@ function PeerToPeer() {
 
   const handleNext = () => {
     if (validateStep(activeStep)) {
-      setActiveStep((prevStep) => prevStep + 1);
+      if (activeStep === steps.length - 1) {
+        handleSubmit();
+      } else {
+        setActiveStep(prev => prev + 1);
+      }
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
+    setActiveStep(prev => prev - 1);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
-        [name]: '',
+        [name]: ''
       }));
     }
   };
 
   const handleFileChange = (e, field) => {
     const files = Array.from(e.target.files);
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [field]: field === 'photos' ? [...prev.photos, ...files] : files[0],
+      [field]: field === 'photos' ? [...prev.photos, ...files] : files[0]
     }));
   };
 
@@ -128,7 +111,7 @@ function PeerToPeer() {
 
   const handleSubmit = () => {
     if (validateStep(activeStep)) {
-      // Here you would typically submit the form data to a backend
+      // Here you would submit the form data to your backend
       console.log('Form submitted:', formData);
       navigate('/dashboard');
     }
@@ -140,356 +123,295 @@ function PeerToPeer() {
     return { min, max };
   };
 
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Make"
-                name="make"
-                value={formData.make}
-                onChange={handleInputChange}
-                error={!!errors.make}
-                helperText={errors.make}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Model"
-                name="model"
-                value={formData.model}
-                onChange={handleInputChange}
-                error={!!errors.model}
-                helperText={errors.model}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Year"
-                name="year"
-                type="number"
-                value={formData.year}
-                onChange={handleInputChange}
-                error={!!errors.year}
-                helperText={errors.year}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required error={!!errors.type}>
-                <InputLabel>Vehicle Type</InputLabel>
-                <Select
-                  name="type"
-                  value={formData.type}
-                  label="Vehicle Type"
-                  onChange={handleInputChange}
-                >
-                  {carTypes.map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.type && <FormHelperText>{errors.type}</FormHelperText>}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required error={!!errors.transmission}>
-                <InputLabel>Transmission</InputLabel>
-                <Select
-                  name="transmission"
-                  value={formData.transmission}
-                  label="Transmission"
-                  onChange={handleInputChange}
-                >
-                  {transmissionTypes.map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.transmission && (
-                  <FormHelperText>{errors.transmission}</FormHelperText>
-                )}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required error={!!errors.fuelType}>
-                <InputLabel>Fuel Type</InputLabel>
-                <Select
-                  name="fuelType"
-                  value={formData.fuelType}
-                  label="Fuel Type"
-                  onChange={handleInputChange}
-                >
-                  {fuelTypes.map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.fuelType && <FormHelperText>{errors.fuelType}</FormHelperText>}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Number of Seats"
-                name="seats"
-                type="number"
-                value={formData.seats}
-                onChange={handleInputChange}
-                error={!!errors.seats}
-                helperText={errors.seats}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Description"
-                name="description"
-                multiline
-                rows={4}
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Tell potential renters about your car's features, condition, and any special notes"
-              />
-            </Grid>
-          </Grid>
-        );
-
-      case 1:
-        return (
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper
-                sx={{
-                  p: 3,
-                  border: '2px dashed #ccc',
-                  textAlign: 'center',
-                  mb: 2,
-                }}
-              >
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => handleFileChange(e, 'photos')}
-                  style={{ display: 'none' }}
-                  id="photo-upload"
-                />
-                <label htmlFor="photo-upload">
-                  <Button
-                    variant="contained"
-                    component="span"
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    Upload Photos
-                  </Button>
-                </label>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                  Upload at least 5 high-quality photos of your car
-                </Typography>
-                {errors.photos && (
-                  <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-                    {errors.photos}
-                  </Typography>
-                )}
-                {formData.photos.length > 0 && (
-                  <Box sx={{ mt: 2 }}>
-                    <Typography variant="body2">
-                      {formData.photos.length} photos selected
-                    </Typography>
-                  </Box>
-                )}
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Paper sx={{ p: 3, border: '2px dashed #ccc' }}>
-                <input
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={(e) => handleFileChange(e, 'registration')}
-                  style={{ display: 'none' }}
-                  id="registration-upload"
-                />
-                <label htmlFor="registration-upload">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    component="span"
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    Upload Registration
-                  </Button>
-                </label>
-                {errors.registration && (
-                  <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-                    {errors.registration}
-                  </Typography>
-                )}
-                {formData.registration && (
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    {formData.registration.name}
-                  </Typography>
-                )}
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Paper sx={{ p: 3, border: '2px dashed #ccc' }}>
-                <input
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={(e) => handleFileChange(e, 'insurance')}
-                  style={{ display: 'none' }}
-                  id="insurance-upload"
-                />
-                <label htmlFor="insurance-upload">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    component="span"
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    Upload Insurance
-                  </Button>
-                </label>
-                {errors.insurance && (
-                  <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-                    {errors.insurance}
-                  </Typography>
-                )}
-                {formData.insurance && (
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    {formData.insurance.name}
-                  </Typography>
-                )}
-              </Paper>
-            </Grid>
-          </Grid>
-        );
-
-      case 2:
-        return (
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              {formData.type && (
-                <Alert severity="info" sx={{ mb: 3 }}>
-                  Suggested price range for {formData.type} vehicles in your area: ₹
-                  {getSuggestedPrice()?.min} - ₹{getSuggestedPrice()?.max} per day
-                </Alert>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Price per Day"
-                name="pricePerDay"
-                type="number"
-                value={formData.pricePerDay}
-                onChange={handleInputChange}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">₹</InputAdornment>,
-                }}
-                error={!!errors.pricePerDay}
-                helperText={errors.pricePerDay}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Minimum Rental Days"
-                name="minimumDays"
-                type="number"
-                value={formData.minimumDays}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Available From"
-                name="availableFrom"
-                type="date"
-                value={formData.availableFrom}
-                onChange={handleInputChange}
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.availableFrom}
-                helperText={errors.availableFrom}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Available To"
-                name="availableTo"
-                type="date"
-                value={formData.availableTo}
-                onChange={handleInputChange}
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.availableTo}
-                helperText={errors.availableTo}
-              />
-            </Grid>
-          </Grid>
-        );
-
-      default:
-        return 'Unknown step';
-    }
-  };
-
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        List Your Car
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
-        Earn money by sharing your car with others in your community
-      </Typography>
+    <div className="peer-to-peer">
+      <div className="container">
+        {/* Breadcrumb Navigation */}
+        <div className="breadcrumb">
+          <Link to="/">Home</Link> / <span>List Your Car</span>
+        </div>
 
-      <Paper sx={{ p: 4, mt: 4 }}>
-        <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
+        {/* Page Title */}
+        <div className="page-header">
+          <h1>List Your Car</h1>
+          <p>Share your vehicle and earn money when you're not using it</p>
+        </div>
+
+        {/* Steps Progress */}
+        <div className="steps-progress">
+          {steps.map((label, index) => (
+            <div 
+              key={label}
+              className={`step ${index === activeStep ? 'active' : ''} 
+                         ${index < activeStep ? 'completed' : ''}`}
+            >
+              <div className="step-number">{index + 1}</div>
+              <div className="step-label">{label}</div>
+            </div>
           ))}
-        </Stepper>
+        </div>
 
-        {getStepContent(activeStep)}
+        {/* Form Content */}
+        <div className="form-content">
+          {activeStep === 0 && (
+            <div className="form-section">
+              <h2>Vehicle Details</h2>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Make*</label>
+                  <input
+                    type="text"
+                    name="make"
+                    value={formData.make}
+                    onChange={handleInputChange}
+                    className={errors.make ? 'error' : ''}
+                  />
+                  {errors.make && <span className="error-message">{errors.make}</span>}
+                </div>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-          {activeStep !== 0 && (
-            <Button onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
+                <div className="form-group">
+                  <label>Model*</label>
+                  <input
+                    type="text"
+                    name="model"
+                    value={formData.model}
+                    onChange={handleInputChange}
+                    className={errors.model ? 'error' : ''}
+                  />
+                  {errors.model && <span className="error-message">{errors.model}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Year*</label>
+                  <input
+                    type="number"
+                    name="year"
+                    value={formData.year}
+                    onChange={handleInputChange}
+                    min="1900"
+                    max={new Date().getFullYear()}
+                    className={errors.year ? 'error' : ''}
+                  />
+                  {errors.year && <span className="error-message">{errors.year}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Vehicle Type*</label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    className={errors.type ? 'error' : ''}
+                  >
+                    <option value="">Select type</option>
+                    {carTypes.map(type => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                  {errors.type && <span className="error-message">{errors.type}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Transmission*</label>
+                  <select
+                    name="transmission"
+                    value={formData.transmission}
+                    onChange={handleInputChange}
+                    className={errors.transmission ? 'error' : ''}
+                  >
+                    <option value="">Select transmission</option>
+                    {transmissionTypes.map(type => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                  {errors.transmission && <span className="error-message">{errors.transmission}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Fuel Type*</label>
+                  <select
+                    name="fuelType"
+                    value={formData.fuelType}
+                    onChange={handleInputChange}
+                    className={errors.fuelType ? 'error' : ''}
+                  >
+                    <option value="">Select fuel type</option>
+                    {fuelTypes.map(type => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                  {errors.fuelType && <span className="error-message">{errors.fuelType}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Number of Seats*</label>
+                  <input
+                    type="number"
+                    name="seats"
+                    value={formData.seats}
+                    onChange={handleInputChange}
+                    min="1"
+                    max="15"
+                    className={errors.seats ? 'error' : ''}
+                  />
+                  {errors.seats && <span className="error-message">{errors.seats}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>License Plate</label>
+                  <input
+                    type="text"
+                    name="licensePlate"
+                    value={formData.licensePlate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
           )}
-          {activeStep === steps.length - 1 ? (
-            <Button variant="contained" onClick={handleSubmit}>
-              Submit Listing
-            </Button>
-          ) : (
-            <Button variant="contained" onClick={handleNext}>
-              Next
-            </Button>
+
+          {activeStep === 1 && (
+            <div className="form-section">
+              <h2>Photos & Documents</h2>
+              
+              <div className="upload-section">
+                <h3>Vehicle Photos</h3>
+                <p>Add at least 5 high-quality photos of your vehicle</p>
+                <div className="photo-upload">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => handleFileChange(e, 'photos')}
+                    className={errors.photos ? 'error' : ''}
+                  />
+                  {errors.photos && <span className="error-message">{errors.photos}</span>}
+                </div>
+                
+                {formData.photos.length > 0 && (
+                  <div className="photo-preview">
+                    {formData.photos.map((photo, index) => (
+                      <div key={index} className="preview-item">
+                        <img src={URL.createObjectURL(photo)} alt={`Preview ${index + 1}`} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="upload-section">
+                <h3>Required Documents</h3>
+                <div className="document-upload">
+                  <div className="upload-item">
+                    <label>Vehicle Registration*</label>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileChange(e, 'registration')}
+                      className={errors.registration ? 'error' : ''}
+                    />
+                    {errors.registration && <span className="error-message">{errors.registration}</span>}
+                  </div>
+
+                  <div className="upload-item">
+                    <label>Insurance Document*</label>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileChange(e, 'insurance')}
+                      className={errors.insurance ? 'error' : ''}
+                    />
+                    {errors.insurance && <span className="error-message">{errors.insurance}</span>}
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
-        </Box>
-      </Paper>
-    </Container>
+
+          {activeStep === 2 && (
+            <div className="form-section">
+              <h2>Pricing & Availability</h2>
+              
+              <div className="pricing-section">
+                <div className="form-group">
+                  <label>Price per Day (₹)*</label>
+                  <input
+                    type="number"
+                    name="pricePerDay"
+                    value={formData.pricePerDay}
+                    onChange={handleInputChange}
+                    min="0"
+                    className={errors.pricePerDay ? 'error' : ''}
+                  />
+                  {errors.pricePerDay && <span className="error-message">{errors.pricePerDay}</span>}
+                  
+                  {formData.type && (
+                    <div className="price-suggestion">
+                      <p>Suggested price range for {formData.type}:</p>
+                      <p>₹{getSuggestedPrice()?.min.toLocaleString()} - ₹{getSuggestedPrice()?.max.toLocaleString()} per day</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>Minimum Rental Days</label>
+                  <input
+                    type="number"
+                    name="minimumDays"
+                    value={formData.minimumDays}
+                    onChange={handleInputChange}
+                    min="1"
+                  />
+                </div>
+              </div>
+
+              <div className="availability-section">
+                <h3>Availability Period</h3>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Available From*</label>
+                    <input
+                      type="date"
+                      name="availableFrom"
+                      value={formData.availableFrom}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      className={errors.availableFrom ? 'error' : ''}
+                    />
+                    {errors.availableFrom && <span className="error-message">{errors.availableFrom}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label>Available To*</label>
+                    <input
+                      type="date"
+                      name="availableTo"
+                      value={formData.availableTo}
+                      onChange={handleInputChange}
+                      min={formData.availableFrom || new Date().toISOString().split('T')[0]}
+                      className={errors.availableTo ? 'error' : ''}
+                    />
+                    {errors.availableTo && <span className="error-message">{errors.availableTo}</span>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="button-group">
+            {activeStep > 0 && (
+              <button className="secondary-button" onClick={handleBack}>
+                Back
+              </button>
+            )}
+            <button className="primary-button" onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Submit Listing' : 'Continue'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
