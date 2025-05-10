@@ -1,4 +1,5 @@
 import React from 'react';
+import './BookingHistory.css';
 
 const BookingHistory = ({ bookings }) => {
   return (
