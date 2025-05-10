@@ -54,6 +54,39 @@
   color: #dc3545;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 0.25em 0.9em;
+  border-radius: 16px;
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
+  color: #fff;
+}
+.status-confirmed {
+  background: #28a745;
+}
+.status-pending {
+  background: #ff9800;
+}
+.status-cancelled {
+  background: #dc3545;
+}
+.status-completed {
+  background: #007bff;
+}
+.status-available {
+  background: #4caf50;
+}
+.status-rented {
+  background: #f44336;
+}
+.status-maintenance {
+  background: #ffeb3b;
+  color: #222;
+}
+
 @media (max-width: 700px) {
   .bookings-grid {
     grid-template-columns: 1fr;

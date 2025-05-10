@@ -5,9 +5,9 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import CustomerDashboard from './pages/customerDashboard/CustomerDashboard';
 import AdminDashboard from './pages/adminDashboard/AdminDashboard';
-import Cars from './pages/cars/Cars';
+import Cars from './pages/Cars/Cars';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import '@fontsource/poppins';
 import { lazy } from 'react';
 
@@ -16,9 +16,13 @@ const Register = lazy(() => import('./pages/register/Register'));
 const BookCar = lazy(() => import('./pages/bookCar/BookCar'));
 
 function App() {
+  const location = useLocation();
+  // Hide Navbar and Footer on dashboard routes
+  const isDashboard = location.pathname.startsWith('/admin/dashboard') || location.pathname.startsWith('/customer/dashboard');
+
   return (
     <div className="app">
-      <Navbar />
+      {!isDashboard && <Navbar />}
       <main className="main-content">
         <React.Suspense fallback={<div>Loading...</div>}>
           <Routes>
@@ -32,7 +36,7 @@ function App() {
           </Routes>
         </React.Suspense>
       </main>
-      <Footer />
+      {!isDashboard && <Footer />}
     </div>
   );
 }

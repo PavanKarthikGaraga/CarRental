@@ -1,28 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import FeaturedCars from '../../components/Dashboard/Customer/FeaturedCars';
 import './Home.css';
-
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  const navigate = useNavigate();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/cars');
-        const data = await response.json();
-        setCars(data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch cars');
-        setLoading(false);
+  const fetchCars = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/cars');
+      if (!response.ok) {
+        throw new Error('Failed to fetch cars');
       }
-    };
-
-    fetchCars();
+      const data = await response.json();
+      setCars(data);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch cars');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchCars();
+  }, [fetchCars]);
 
   return (
     <div className="home">
@@ -33,7 +37,7 @@ const Home = () => {
             <div className="search-subtitle">
               <b>Explore self-drive cars in <span className="city-highlight">Your Location</span></b>
             </div>
-            <form className="search-form">
+            <form className="search-form" onSubmit={(e) => e.preventDefault()}>
               <label htmlFor="location">Location</label>
               <input id="location" type="text" placeholder="Enter your location" />
               <div className="date-row">
@@ -50,7 +54,7 @@ const Home = () => {
                 <input type="checkbox" id="pickup" />
                 <label htmlFor="pickup">Delivery & Pick-up, from anywhere</label>
               </div>
-              <button className="search-btn" type="submit">SEARCH</button>
+              <button onClick={() => navigate('/cars')} className="search-btn" type="submit">SEARCH</button>
             </form>
           </div>
         </div>
@@ -104,7 +108,7 @@ const Home = () => {
         ) : error ? (
           <div className="error">{error}</div>
         ) : (
-          <FeaturedCars cars={cars} />
+          <FeaturedCars cars={cars.slice(0, 3)} />
         )}
       </section>
 

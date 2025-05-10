@@ -1,3 +1,15 @@
+-- Clear existing data
+DELETE FROM bookings;
+DELETE FROM cars;
+DELETE FROM customers;
+DELETE FROM users;
+
+-- Reset auto-increment counters
+ALTER TABLE bookings AUTO_INCREMENT = 1;
+ALTER TABLE cars AUTO_INCREMENT = 1;
+ALTER TABLE customers AUTO_INCREMENT = 1;
+ALTER TABLE users AUTO_INCREMENT = 1;
+
 -- 1. Insert Users
 INSERT INTO users (id, name, email, password, role) VALUES
                                                         (1, 'Admin User', 'admin@carrental.com', 'admin123', 'Admin'),
@@ -19,9 +31,20 @@ INSERT INTO cars (id, name, brand, type, color, fuelType, image, price, status, 
                                                                                              (4, 'Ford Mustang', 'Ford', 'Sports', 'Red', 'PETROL', 'https://imgd.aeplcdn.com/370x208/n/cw/ec/159099/swift-exterior-right-front-three-quarter-31.jpeg?isig=0&q=80', 70.00, 'Available', 3),
                                                                                              (5, 'Hyundai Tucson', 'Hyundai', 'SUV', 'Black', 'DIESEL', 'https://imgd.aeplcdn.com/370x208/n/cw/ec/174325/carens-exterior-right-front-three-quarter-6.jpeg?isig=0&q=80', 60.00, 'Available', 4);
 
--- 4. Insert Bookings
+-- 4. Insert Bookings and update car status
+-- First booking: Toyota Camry is rented
 INSERT INTO bookings (id, customerId, carId, startDate, endDate, totalPrice, status) VALUES
-                                                                                         (1, 2, 1, '2024-05-15', '2024-05-20', 250.00, 'Confirmed'),  -- customerId = 2 (John Doe), carId = 1 (Toyota Camry)
-                                                                                         (2, 3, 3, '2024-05-18', '2024-05-25', 560.00, 'Pending'),    -- customerId = 3 (Jane Smith), carId = 3 (Tesla Model 3)
-                                                                                         (3, 4, 5, '2024-05-20', '2024-05-22', 120.00, 'Confirmed');   -- customerId = 4 (Mike Johnson), carId = 5 (Hyundai Tucson)
+                                                                                         (1, 1, 1, '2024-05-15', '2024-05-20', 250.00, 'Confirmed');
+
+UPDATE cars SET status = 'Rented' WHERE id = 1;
+
+-- Second booking: Tesla Model 3 is pending
+INSERT INTO bookings (id, customerId, carId, startDate, endDate, totalPrice, status) VALUES
+                                                                                         (2, 2, 3, '2024-05-18', '2024-05-25', 560.00, 'Pending');
+
+-- Third booking: Hyundai Tucson is rented
+INSERT INTO bookings (id, customerId, carId, startDate, endDate, totalPrice, status) VALUES
+                                                                                         (3, 3, 5, '2024-05-20', '2024-05-22', 120.00, 'Confirmed');
+
+UPDATE cars SET status = 'Rented' WHERE id = 5;
 

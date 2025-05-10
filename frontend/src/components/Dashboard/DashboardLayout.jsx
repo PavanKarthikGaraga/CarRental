@@ -1,25 +1,37 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import DashboardNavbar from './DashboardNavbar/DashboardNavbar';
+import DashboardFooter from './DashboardFooter/DashboardFooter';
+import Sidebar from '../Sidebar/Sidebar';
 import './DashboardLayout.css';
 
-const DashboardLayout = ({ children, title }) => {
-  const navigate = useNavigate();
+const SIDEBAR_WIDTH = 250;
+const SIDEBAR_COLLAPSED_WIDTH = 70;
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    navigate('/login');
-  };
+const DashboardLayout = ({ children, activeSection, onSectionChange }) => {
+  const isSidebarOpen = true;
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const location = useLocation();
+  const showWelcome = location.pathname === '/customer/dashboard' || location.pathname === '/admin/dashboard';
 
   return (
-    <div className="dashboard-layout">
-      <header className="dashboard-header">
-        <h1>{title}</h1>
-        <button onClick={handleLogout} className="logout-button">Logout</button>
-      </header>
-
-      <div className="dashboard-content">
-        {children}
+    <div className="dashboard-root">
+      <DashboardNavbar userName={showWelcome ? user.name || 'User' : null} />
+      <div className="dashboard-flex">
+        <Sidebar 
+          isOpen={isSidebarOpen} 
+          showBackButton={true} 
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
+        />
+        <div className="dashboard-main-wrapper-static">
+          <Toaster position="top-right" />
+          <main className="dashboard-main">
+            {React.cloneElement(children, { activeSection })}
+          </main>
+          <DashboardFooter />
+        </div>
       </div>
     </div>
   );

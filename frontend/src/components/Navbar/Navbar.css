@@ -10,6 +10,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-logo {
@@ -22,41 +23,83 @@
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.navbar-link {
-  color: #0033cc;
+.navbar-links a {
+  color: #333;
   text-decoration: none;
-  font-size: 1.1rem;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.navbar-link:hover {
-  color: #002299;
+.navbar-links a:hover {
+  color: #007bff;
 }
 
-.navbar-login-btn {
-  background-color: #0033cc;
-  color: #fff;
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-btn, .logout-btn {
+  background: none;
   border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  font-weight: bold;
   cursor: pointer;
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0.5rem;
+  border-radius: 50%;
   transition: background-color 0.2s;
-  margin-left: 1rem;
 }
 
-.navbar-login-btn:hover {
-  background-color: #002299;
-} 
+.profile-btn:hover, .logout-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.login-btn, .signup-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.login-btn {
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.login-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.signup-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.signup-btn:hover {
+  background-color: #0056b3;
+}
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
   color: #0033cc;
+  text-decoration: none;
+}
+
+.navbar-brand a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
   text-decoration: none;
 }
