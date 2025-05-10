@@ -1,0 +1,123 @@
+.bookcar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.bookcar-box {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #0033cc;
+  width: 100%;
+  max-width: 500px;
+  color: #0033cc;
+}
+
+.bookcar-box h2 {
+  text-align: center;
+  color: #111;
+  margin-bottom: 1.5rem;
+}
+
+.bookcar-details {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.bookcar-image {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.bookcar-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.bookcar-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #0033cc;
+}
+
+.bookcar-form input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #0033cc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #0033cc;
+  background-color: #fff;
+}
+
+.bookcar-form input:focus {
+  /* outline: none; */
+  border-color: #002299;
+}
+
+.bookcar-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0033cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.bookcar-button:hover {
+  background-color: #002299;
+}
+
+.bookcar-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.bookcar-error {
+  background-color: #fff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.bookcar-loading {
+  text-align: center;
+  color: #0033cc;
+  font-size: 1.2rem;
+  padding: 2rem 0;
+}
+
+@media (max-width: 600px) {
+  .bookcar-box {
+    padding: 1.2rem;
+    max-width: 98vw;
+  }
+  .bookcar-details {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+  .bookcar-image {
+    width: 90px;
+    height: 60px;
+  }
+} 

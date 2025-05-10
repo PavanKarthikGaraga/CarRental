@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const AvailableCars = ({ cars }) => {
   const navigate = useNavigate();
@@ -15,13 +15,10 @@ const AvailableCars = ({ cars }) => {
               <h3>{car.name}</h3>
               <p>Brand: {car.brand}</p>
               <p>Type: {car.type}</p>
-              <p>Price: ${car.price}/day</p>
-              <button 
-                onClick={() => navigate(`/book-car/${car.id}`)}
-                className="book-button"
-              >
+              <p>Price: ₹{car.price}/day</p>
+              <Link to={`/book-car/${car.id}`} className="book-button">
                 Book Now
-              </button>
+              </Link>
             </div>
           </div>
         ))}

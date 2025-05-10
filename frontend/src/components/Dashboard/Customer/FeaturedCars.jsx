@@ -21,7 +21,7 @@ const FeaturedCars = ({ cars }) => {
               <h3>{car.name}</h3>
               <p>Brand: {car.brand}</p>
               <p>Type: {car.type}</p>
-              <p>Price: ${car.price}/day</p>
+              <p>Price: ₹{car.price}/day</p>
               <Link to={`/book-car/${car.id}`} className="book-button">
                 Book Now
               </Link>

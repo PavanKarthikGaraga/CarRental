@@ -1,0 +1,106 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.register-box {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #0033cc;
+  width: 100%;
+  max-width: 400px;
+  color: #0033cc;
+}
+
+.register-box h2 {
+  text-align: center;
+  color: #111;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #0033cc;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #0033cc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #0033cc;
+  background-color: #fff;
+}
+
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: #002299;
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0033cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #002299;
+}
+
+.error-message {
+  background-color: #fff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #0033cc;
+}
+
+.login-link a {
+  color: #0033cc;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .register-box {
+    padding: 1.5rem;
+  }
+} 

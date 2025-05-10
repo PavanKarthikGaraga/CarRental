@@ -26,11 +26,48 @@ const Home = () => {
 
   return (
     <div className="home">
-      <section className="hero">
-        <div className="hero-content">
-          <h1>Find Your Perfect Ride</h1>
-          <p>Choose from our wide range of vehicles for your next adventure</p>
-          <Link to="/cars" className="cta-button">Browse Cars</Link>
+      <section className="hero-section home-landing">
+        <div className="landing-left">
+          <div className="search-card glass-effect">
+            <div className="search-title">Looking for car rentals?</div>
+            <div className="search-subtitle">
+              <b>Explore self-drive cars in <span className="city-highlight">Your Location</span></b>
+            </div>
+            <form className="search-form">
+              <label htmlFor="location">Location</label>
+              <input id="location" type="text" placeholder="Enter your location" />
+              <div className="date-row">
+                <div className="date-group">
+                  <label>Trip Starts</label>
+                  <input type="date" defaultValue={new Date().toISOString().slice(0, 10)} />
+                </div>
+                <div className="date-group">
+                  <label>Trip Ends</label>
+                  <input type="date" defaultValue={new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)} />
+                </div>
+              </div>
+              <div className="pickup-row">
+                <input type="checkbox" id="pickup" />
+                <label htmlFor="pickup">Delivery & Pick-up, from anywhere</label>
+              </div>
+              <button className="search-btn" type="submit">SEARCH</button>
+            </form>
+          </div>
+        </div>
+        <div className="landing-right">
+          <div className="drive-title">
+            <span className="drive-main">DRIVE</span>
+            <span className="drive-main">ANYTIME</span>
+            <span className="drive-main">ANYWHERE</span>
+          </div>
+          <div className="drive-desc">
+            With no commitment, unlimited options and hassle-free booking, your road to adventure!
+          </div>
+          <div className="car-images-row">
+            <img src="https://imgd.aeplcdn.com/370x208/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-11.jpeg?isig=0&q=80" alt="Car 1" className="car-img" />
+            <img src="https://imgd.aeplcdn.com/370x208/n/cw/ec/131825/be-6e-exterior-right-front-three-quarter-5.jpeg?isig=0&q=80" alt="Car 2" className="car-img" />
+            <img src="https://imgd.aeplcdn.com/370x208/n/cw/ec/42355/xuv700-exterior-right-front-three-quarter-4.jpeg?isig=0&q=80" alt="Car 3" className="car-img" />
+          </div>
         </div>
       </section>
 

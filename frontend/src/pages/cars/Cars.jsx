@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Cars.css';
+import { Link } from 'react-router-dom';
 
 const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -66,8 +67,9 @@ const Cars = () => {
                   <h2 className="car-name">{car.name}</h2>
                   <p className="car-brand">Brand: {car.brand}</p>
                   <p className="car-type">Type: {car.type}</p>
-                  <p className="car-price">Price: <span>${car.price}/day</span></p>
+                  <p className="car-price">Price: <span>₹{car.price}/day</span></p>
                   <p className={`car-status ${car.status.toLowerCase()}`}>Status: {car.status}</p>
+                  <Link to={`/book-car/${car.id}`} className="book-button">Book Now</Link>
                 </div>
               </div>
             ))

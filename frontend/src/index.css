@@ -363,3 +363,31 @@ input[type="file"]::file-selector-button:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Status select styles */
+.status-select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s var(--animation-timing);
+}
+
+.status-select:hover {
+  background-color: var(--surface-lighter);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.status-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+  outline: none;
+}
+
+.status-select option {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+}

@@ -69,6 +69,12 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleBookingStatusUpdate = (bookingId, newStatus) => {
+    setBookings(bookings.map(booking => 
+      booking.id === bookingId ? { ...booking, status: newStatus } : booking
+    ));
+  };
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
@@ -84,7 +90,7 @@ const AdminDashboard = () => {
     <DashboardLayout title="Admin Dashboard">
       <SystemOverview stats={stats} />
       <UserManagement users={users} onDeleteUser={handleDeleteUser} />
-      <RecentBookings bookings={bookings} />
+      <RecentBookings bookings={bookings} onUpdateStatus={handleBookingStatusUpdate} />
     </DashboardLayout>
   );
 };
