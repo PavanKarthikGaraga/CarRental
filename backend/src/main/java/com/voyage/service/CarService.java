@@ -20,12 +20,9 @@ public class CarService {
 	  private UserRepository userRepo;
 	  
 	  public String addCar(Car c) {
-	    // Verify that the owner is a Customer
-	    User owner = c.getOwner();
-	    if (owner == null || !"Customer".equalsIgnoreCase(owner.getRole())) {
-	      return "Error: Car owner must be a Customer";
+	    if (c.getOwner() == null) {
+	      c.setOwner(null); // Explicitly set owner to null
 	    }
-	    
 	    carRepo.save(c);
 	    return "Car Data Inserted Successfully...!!!";
 	  }
@@ -80,5 +77,18 @@ public class CarService {
 	  public List<Car> findByOwnerId(Long id){
 		  List<Car> cars = carRepo.findByOwnerId(id);
 		  return cars;
+	  }
+
+	  public String updateCarStatus(Long id, String newStatus) {
+	    Optional<Car> existingCar = carRepo.findById(id);
+	    
+	    if(existingCar.isPresent()) {
+	      Car existing = existingCar.get();
+	      existing.setStatus(newStatus);
+	      carRepo.save(existing);
+	      return "Car status Updated Successfully";
+	    }
+	    else
+	      return "Car ID Not Found";
 	  }
 }

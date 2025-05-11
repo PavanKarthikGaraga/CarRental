@@ -44,8 +44,8 @@ public class Car {
 	private String status;
 
 	@ManyToOne
-	@JoinColumn(name = "ownerId", nullable = false)
-	private User owner; // Owner is a Customer (User with Customer role)
+	@JoinColumn(name = "ownerId", nullable = true)
+	private User owner; // Owner is optional
 
 	public Long getId() { return id; }
 	public void setId(Long id) { this.id = id; }

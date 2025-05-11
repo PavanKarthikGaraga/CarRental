@@ -52,6 +52,15 @@ public class CarController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<String> updateCarStatus(@PathVariable Long id, @RequestBody CarStatusUpdate statusUpdate) {
+        String result = carService.updateCarStatus(id, statusUpdate.getStatus());
+        if (result.contains("Not Found")) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {
         String result = carService.deleteCar(id);
@@ -59,5 +68,17 @@ public class CarController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(result);
+    }
+}
+
+class CarStatusUpdate {
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 } 
